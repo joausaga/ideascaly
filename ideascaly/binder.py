@@ -63,7 +63,10 @@ def bind_api(**config):
         def execute(self):
             # Build the URL of the end-point
             url = self.api.url + self.path
-            full_url = 'http://' + self.api.community_url + url
+            if self.api.community_url.find("http") == -1:
+                full_url = 'http://' + self.api.community_url + url
+            else:
+                full_url = self.api.community_url + url
 
             # Execute request
             try:
