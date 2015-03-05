@@ -13,7 +13,6 @@ def parse_datetime(str_date):
         date_is = dateutil.parser.parse(str_date)
         return date_is
     except:
-        print("Invalid date: %s" % str_date)
         return None
 
 def parse_html_value(html):
