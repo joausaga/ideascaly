@@ -5,8 +5,6 @@
 import six
 import dateutil.parser
 
-from datetime import datetime
-
 
 def parse_datetime(str_date):
     try:

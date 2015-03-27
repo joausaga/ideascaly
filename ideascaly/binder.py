@@ -79,7 +79,7 @@ def bind_api(**config):
                 try:
                     error_msg = self.parser.parse_error(resp.text)
                 except Exception:
-                    error_msg = "IdeaScale error response: status code = %s" % resp.status_code
+                    error_msg = "IdeaScale %s error response." % resp.status_code
                 raise IdeaScalyError(error_msg, resp)
 
             # Parse the response payload
