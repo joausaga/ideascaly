@@ -24,6 +24,7 @@ def bind_api(**config):
             self.parser = kwargs.pop('parser', self.api.parser)
             self.post_data = kwargs.pop('post_data', None)
             self.session.headers = self.api.auth_handler.token
+            self.build_parameters(args, kwargs)
             self.build_path(args, kwargs)
 
         def build_path(self, args, kwargs):
@@ -34,9 +35,14 @@ def bind_api(**config):
                 if arg is None:
                     continue
                 try:
-                    self.path = self.path.replace("{%s}"%self.allowed_param[index], convert_to_utf8_str(arg))
+                    self.path = self.path.replace("{%s}" % self.allowed_param[index], convert_to_utf8_str(arg))
                 except IndexError:
                     raise IdeaScalyError('Wrong number of parameters supplied!')
+
+            for k, arg in kwargs.items():
+                if arg is None:
+                    continue
+                self.path = self.path.replace("{%s}" % k, convert_to_utf8_str(arg))
 
             if 'campaign_id' in kwargs.keys():
                 self.path = 'campaigns/' + convert_to_utf8_str(kwargs['campaign_id']) + self.path
@@ -59,6 +65,32 @@ def bind_api(**config):
                     self.path = self.path + '/' + convert_to_utf8_str(kwargs['order_key'])
                 else:
                     raise IdeaScalyError('Error with order key parameter, it must be one of these: %s' % order_keys)
+
+            # create new users without sending a verification email
+            if 'silent' in kwargs.keys():
+                if kwargs['silent']:
+                    self.path += '/create/silent'
+
+        def build_parameters(self, args, kwargs):
+            self.session.params = {}
+
+            for index, arg in enumerate(args):
+                if arg is None:
+                    continue
+                try:
+                    self.session.params[self.allowed_param[index]] = convert_to_utf8_str(arg)
+                except IndexError:
+                    raise IdeaScalyError('Too many parameters supplied!')
+
+            for k, arg in kwargs.items():
+                if arg is None:
+                    continue
+                if k not in self.allowed_param:
+                    continue
+                if k in self.session.params:
+                    raise IdeaScalyError('Multiple values for parameter %s supplied!' % k)
+
+                self.session.params[k] = convert_to_utf8_str(arg)
 
         def execute(self):
             # Build the URL of the end-point
