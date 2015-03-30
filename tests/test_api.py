@@ -19,7 +19,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
         if len(result) > 0: self.assertTrue(isinstance(result[0], Idea))
 
     def testget_ideas_in_progress_campaign(self):
-        result = self.api.get_ideas_in_progress(campaign=31732)
+        result = self.api.get_ideas_in_progress(campaign_id=31732)
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Idea))
 
