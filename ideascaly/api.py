@@ -70,8 +70,7 @@ class API():
             payload_list=True
         )(**kwargs)
 
-    @property
-    def get_votes_idea(self):
+    def get_votes_idea(self, *args, **kwargs):
         """ :allowed_param:'ideaId'
         """
         return bind_api(
@@ -80,10 +79,9 @@ class API():
             payload_type='vote',
             allowed_param=['ideaId'],
             payload_list=True
-        )
+        )(*args, **kwargs)
 
-    @property
-    def get_comments_idea(self):
+    def get_comments_idea(self, *args, **kwargs):
         """ :allowed_param:'ideaId'
         """
         return bind_api(
@@ -92,7 +90,7 @@ class API():
             payload_type='comment',
             allowed_param=['ideaId'],
             payload_list=True
-        )
+        )(*args, **kwargs)
 
     @property
     def get_campaigns(self):
@@ -104,8 +102,7 @@ class API():
             payload_list=True
         )
 
-    @property
-    def get_idea_details(self):
+    def get_idea_details(self, *args, **kwargs):
         """ :allowed_param:'ideaId'
         """
         return bind_api(
@@ -113,7 +110,7 @@ class API():
             path='/ideas/{ideaId}',
             payload_type='idea',
             allowed_param=['ideaId']
-        )
+        )(*args, **kwargs)
 
     def get_ideas_campaign(self, *args, **kwargs):
         """ :allowed_param:'campaignId'
@@ -167,3 +164,218 @@ class API():
             payload_type='idea',
             payload_list=True
         )(**kwargs)
+
+    def create_new_member(self, *args, **kwargs):
+        """ :allowed_param: 'name', 'email'
+        """
+        return bind_api(
+            api=self,
+            path='/members',
+            method='POST',
+            payload_type='author',
+            allowed_param=['name','email']
+        )(*args, **kwargs)
+
+    def get_member_information(self, *args, **kwargs):
+        """ :allowed_param: 'memberId'
+        """
+        return bind_api(
+            api=self,
+            path='/members/{memberId}',
+            payload_type='author',
+            allowed_param=['memberId']
+        )(*args, **kwargs)
+
+    def get_member_information_by_name(self, *args, **kwargs):
+        """ :allowed_param: 'name'
+        """
+        return bind_api(
+            api=self,
+            path='/members/name/{name}',
+            payload_type='author',
+            allowed_param=['name']
+        )(*args, **kwargs)
+
+    def get_member_information_by_email(self, *args, **kwargs):
+        """ :allowed_param: 'email'
+        """
+        return bind_api(
+            api=self,
+            path='/members/email/{email}',
+            payload_type='author',
+            allowed_param=['email']
+        )(*args, **kwargs)
+
+    def get_member_ideas(self, *args, **kwargs):
+        """ :allowed_param: 'memberId'
+        """
+        return bind_api(
+            api=self,
+            path='/members/{memberId}/ideas',
+            payload_type='idea',
+            payload_list=True,
+            allowed_param=['memberId']
+        )(*args, **kwargs)
+
+    def create_new_idea(self, *args, **kwargs):
+        """ :allowed_param: 'title', 'text', 'campaignId' (optional), 'tags' (optional), 'customFields' (optional)
+        """
+        return bind_api(
+            api=self,
+            path='/idea',
+            method='POST',
+            payload_type='idea',
+            allowed_param=['title', 'text', 'campaignId', 'tags', 'customFields']
+        )(*args, **kwargs)
+
+    def attach_media_to_idea(self, *args, **kwargs):
+        # TODO
+        raise NotImplementedError
+
+    def delete_idea(self, *args, **kwargs):
+        """ :allowed_param: 'ideaId'
+        """
+        return bind_api(
+            api=self,
+            path='/ideas/{ideaId}/delete',
+            method='DELETE',
+            payload_type='idea',
+            allowed_param=['ideaId']
+        )(*args, **kwargs)
+
+    def vote_up_idea(self, *args, **kwargs):
+        """ :allowed_param: 'ideaId', 'myVote' (optional)
+        """
+        return bind_api(
+            api=self,
+            path='ideas/{ideaId}/vote/up',
+            method='POST',
+            payload_type='vote',
+            allowed_param=['ideaId', 'myVote']
+        )(*args, **kwargs)
+
+    def vote_down_idea(self, *args, **kwargs):
+        """ :allowed_param: 'ideaId', 'myVote' (optional)
+        """
+        return bind_api(
+            api=self,
+            path='ideas/{ideaId}/vote/down',
+            method='POST',
+            payload_type='vote',
+            allowed_param=['ideaId', 'myVote']
+        )(*args, **kwargs)
+
+    def comment_idea(self, *args, **kwargs):
+        """ :allowed_param: 'ideaId', 'text'
+        """
+        return bind_api(
+            api=self,
+            path='ideas/{ideaId}/comment',
+            method='POST',
+            payload_type='comment',
+            allowed_param=['ideaId', 'text']
+        )(*args, **kwargs)
+
+    def comment_comment(self, *args, **kwargs):
+        """ :allowed_param: 'commentId', 'text'
+        """
+        return bind_api(
+            api=self,
+            path='comments/{commentId}/comment',
+            method='POST',
+            payload_type='comment',
+            allowed_param=['commentId', 'text']
+        )(*args, **kwargs)
+
+    def delete_comment(self, *args, **kwargs):
+        """ :allowed_param: 'commentId'
+        """
+        return bind_api(
+            api=self,
+            path='comments/{commentId}/delete',
+            method='DELETE',
+            payload_type='comment',
+            allowed_param=['commentId']
+        )(*args, **kwargs)
+
+    @property
+    def get_all_comments(self):
+        return bind_api(
+            api=self,
+            path='/comments',
+            payload_type='comment',
+            payload_list=True
+        )
+
+    def get_votes_comment(self, *args, **kwargs):
+        """ :allowed_param: 'commentId'
+        """
+        return bind_api(
+            api=self,
+            path='/comments/{commentId}/votes',
+            payload_type='vote',
+            payload_list=True,
+            allowed_param=['commentId']
+        )(*args, **kwargs)
+
+    @property
+    def get_votes_comments(self):
+        return bind_api(
+            api=self,
+            path='comments/votes',
+            payload_type='vote',
+            payload_list=True
+        )
+
+    @property
+    def get_votes_ideas(self):
+        return bind_api(
+            api=self,
+            path='/ideas/votes',
+            payload_type='vote',
+            payload_list=True
+        )
+
+    def get_votes_ideas_member(self, *args, **kwargs):
+        """ :allowed_param: 'memberId'
+        """
+        return bind_api(
+            api=self,
+            path='/members/{memberId}/ideas/votes',
+            payload_type='vote',
+            payload_list=True,
+            allowed_param=['memberId']
+        )(*args, **kwargs)
+
+    def get_votes_comments_member(self, *args, **kwargs):
+        """ :allowed_param: 'memberId'
+        """
+        return bind_api(
+            api=self,
+            path='/members/{memberId}/comments/votes',
+            payload_type='vote',
+            payload_list=True,
+            allowed_param=['memberId']
+        )(*args, **kwargs)
+
+    def get_comments_member(self, *args, **kwargs):
+        """ :allowed_param: 'memberId'
+        """
+        return bind_api(
+            api=self,
+            path='/members/{memberId}/comments',
+            payload_type='comment',
+            payload_list=True,
+            allowed_param=['memberId']
+        )(*args, **kwargs)
+
+    def get_comment_replies(self, *args, **kwargs):
+        """ :allowed_param: 'commentId'
+        """
+        return bind_api(
+            api=self,
+            path='/comments/{commentId}',
+            payload_type='comment',
+            payload_list=True,
+            allowed_param=['commentId']
+        )(*args, **kwargs)
