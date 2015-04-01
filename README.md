@@ -1,6 +1,10 @@
 IdeaScaly: IdeaScale RESTful API Client
 =========
+[![Latest Version](https://pypip.in/version/ideascaly/badge.svg)](https://pypi.python.org/pypi/ideascaly/)
+[![Supported Python versions](https://pypip.in/py_versions/ideascaly/badge.svg)](https://pypi.python.org/pypi/ideascaly/)
+[![Development Status](https://pypip.in/status/ideascaly/badge.svg)](https://pypi.python.org/pypi/ideascaly/)
 [![Coverage Status](https://coveralls.io/repos/joausaga/ideascaly/badge.svg)](https://coveralls.io/r/joausaga/ideascaly)
+[![License](https://pypip.in/license/ideascaly/badge.svg)](https://pypi.python.org/pypi/ideascaly/)
 
 IdeaScale RESTful API client written in Python. So far, IdeaScaly supports about **45%** of [IdeaScale API] 
 (http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api) methods. Basically, with IdeaScaly is
