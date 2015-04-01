@@ -25,8 +25,6 @@ def parse_a_href(atag):
 
 def convert_to_utf8_str(arg):
     # written by Michael Norton (http://docondev.blogspot.com/)
-    if isinstance(arg, bytes):
-        arg = arg.decode('ascii')
     if isinstance(arg, six.text_type):
         arg = arg.encode('utf-8')
     elif not isinstance(arg, bytes):
