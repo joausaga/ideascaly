@@ -29,6 +29,8 @@ def convert_to_utf8_str(arg):
         arg = arg.encode('utf-8')
     elif not isinstance(arg, bytes):
         arg = six.text_type(arg).encode('utf-8')
+    elif isinstance(arg, bytes):
+        arg = arg.decode('utf-8')
     return arg
 
 
