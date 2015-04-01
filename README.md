@@ -2,8 +2,8 @@ IdeaScaly: IdeaScale RESTful API Client
 =========
 [![Coverage Status](https://coveralls.io/repos/joausaga/ideascaly/badge.svg)](https://coveralls.io/r/joausaga/ideascaly)
 
-IdeaScale RESTful API client written in Python. So far, IdeaScaly has implemented about **45%** of the [IdeaScale API] 
-(http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api). Basically, with IdeaScaly it is
+IdeaScale RESTful API client written in Python. So far, IdeaScaly has implemented about **45%** of [IdeaScale API] 
+(http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api) methods. Basically, with IdeaScaly is
  possible to:
  * Add new members;
  * Get information about community members;
