@@ -47,11 +47,7 @@ def bind_api(**config):
                     continue
                 if k not in self.allowed_param:
                     continue
-                print(type(self.path))
-                print(type(k))
-                print(type(arg))
                 arg_utf8 = convert_to_utf8_str(arg)
-                print(type(arg_utf8))
                 self.path = self.path.replace("{{}}".format(k), arg_utf8)
 
             if 'campaign_id' in kwargs.keys():
