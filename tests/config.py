@@ -1,4 +1,4 @@
-from ideascaly.auth import AuthResearch
+from ideascaly.auth import AuthNonSSO
 from ideascaly.api import API
 
 import ConfigParser
@@ -12,10 +12,10 @@ class IdeascalyTestCase(unittest.TestCase):
 
     def setUp(self):
         self.auth = create_auth()
-        self.api = API(self.auth, api_url='/a/rest/research/')
+        self.api = API(self.auth)
         self.api.community_url = config.get('test', 'community_url')
 
 
 def create_auth():
-    auth = AuthResearch(config.get('test', 'token'))
+    auth = AuthNonSSO(config.get('test', 'token'))
     return auth
