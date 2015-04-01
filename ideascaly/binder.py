@@ -2,6 +2,7 @@
 # Copyright 2015 Jorge Saldivar
 # See LICENSE for details.
 
+import json
 import requests
 
 from ideascaly.error import IdeaScalyError
@@ -18,11 +19,13 @@ def bind_api(**config):
         payload_list = config.get('payload_list', False)
         method = config.get('method', 'GET')
         allowed_param = config.get('allowed_param', [])
+        pagination_param = config.get('pagination_param', [])
+        post_param = config.get('post_param', [])
         session = requests.Session()
 
         def __init__(self, args, kwargs):
             self.parser = kwargs.pop('parser', self.api.parser)
-            self.post_data = kwargs.pop('post_data', None)
+            self.post_data = {}  # kwargs.pop('post_data', None)
             self.session.headers = self.api.auth_handler.token
             self.build_parameters(args, kwargs)
             self.build_path(args, kwargs)
@@ -42,17 +45,20 @@ def bind_api(**config):
             for k, arg in kwargs.items():
                 if arg is None:
                     continue
+                if k not in self.allowed_param:
+                    continue
                 self.path = self.path.replace("{%s}" % k, convert_to_utf8_str(arg))
 
             if 'campaign_id' in kwargs.keys():
-                self.path = 'campaigns/' + convert_to_utf8_str(kwargs['campaign_id']) + self.path
+                self.path = '/campaigns/' + convert_to_utf8_str(kwargs['campaign_id']) + self.path
 
             # set status key
-            if 'status_key' in kwargs.keys():
+            if 'status_key' in kwargs.keys() and 'status_key' in self.pagination_param:
                 self.path = self.path + '/' + convert_to_utf8_str(kwargs['status_key'])
 
             # set pagination
-            if 'page_number' in kwargs.keys() and 'page_size' in kwargs.keys():
+            if 'page_number' in kwargs.keys() and 'page_number' in self.pagination_param and \
+               'page_size' in kwargs.keys() and 'page_size' in self.pagination_param:
                 if isinstance(kwargs['page_number'],int) and isinstance(kwargs['page_size'],int):
                     self.path = self.path + '/' + convert_to_utf8_str(kwargs['page_number'])
                     self.path = self.path + '/' + convert_to_utf8_str(kwargs['page_size'])
@@ -60,7 +66,7 @@ def bind_api(**config):
                     raise IdeaScalyError('Error with pagination parameters, they both have to be numeric')
 
             # set result order
-            if 'order_key' in kwargs.keys():
+            if 'order_key' in kwargs.keys() and 'order_key' in self.pagination_param:
                 if kwargs['order_key'] in order_keys:
                     self.path = self.path + '/' + convert_to_utf8_str(kwargs['order_key'])
                 else:
@@ -72,25 +78,29 @@ def bind_api(**config):
                     self.path += '/create/silent'
 
         def build_parameters(self, args, kwargs):
-            self.session.params = {}
+            self.post_data = {}
 
-            for index, arg in enumerate(args):
-                if arg is None:
-                    continue
-                try:
-                    self.session.params[self.allowed_param[index]] = convert_to_utf8_str(arg)
-                except IndexError:
-                    raise IdeaScalyError('Too many parameters supplied!')
+            if self.post_param:
+                for index, arg in enumerate(args):
+                    if arg is None:
+                        continue
+                    try:
+                        self.post_data[self.post_param[index]] = convert_to_utf8_str(arg)
+                    except IndexError:
+                        raise IdeaScalyError('Too many parameters supplied!')
 
             for k, arg in kwargs.items():
                 if arg is None:
                     continue
-                if k not in self.allowed_param:
+                if k not in self.post_param:
                     continue
-                if k in self.session.params:
+                if k in self.post_data:
                     raise IdeaScalyError('Multiple values for parameter %s supplied!' % k)
 
-                self.session.params[k] = convert_to_utf8_str(arg)
+                if isinstance(arg, type('')):
+                    self.post_data[k] = convert_to_utf8_str(arg)
+                else:
+                    self.post_data[k] = arg
 
         def execute(self):
             # Build the URL of the end-point
@@ -102,7 +112,9 @@ def bind_api(**config):
 
             # Execute request
             try:
-                resp = self.session.request(self.method, full_url, data=self.post_data, timeout=self.api.timeout)
+                self.session.headers['content-type'] = 'application/json'
+                json_data = json.dumps(self.post_data)
+                resp = self.session.request(self.method, full_url, data=json_data, timeout=self.api.timeout)
             except Exception as e:
                 raise IdeaScalyError('Failed to send request: %s' % e)
 
@@ -111,7 +123,7 @@ def bind_api(**config):
                 try:
                     error_msg = self.parser.parse_error(resp.text)
                 except Exception:
-                    error_msg = "IdeaScale %s error response." % resp.status_code
+                    error_msg = "IdeaScale %s error response" % resp.status_code
                 raise IdeaScalyError(error_msg, resp)
 
             # Parse the response payload
