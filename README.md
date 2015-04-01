@@ -43,7 +43,7 @@ Python 2 (>=.6) & 3 (=<.4) are supported.
 
 Documentation
 -------------
-* IdeaScaly (coming soon!)
+* IdeaScaly, coming soon! (meanwhile the examples may help)
 * [IdeaScale API](http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api)
 
 License
