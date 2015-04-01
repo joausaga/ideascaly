@@ -1,6 +1,6 @@
 import unittest
 
-from config import IdeascalyTestCase
+from tests.config import IdeascalyTestCase
 from ideascaly.models import Idea, Vote, Comment, Campaign, Author
 
 """Unit tests"""
