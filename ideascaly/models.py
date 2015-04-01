@@ -156,6 +156,7 @@ class Comment(Model):
 
         return comment
 
+
 class JSONModel(Model):
 
     @classmethod
