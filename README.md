@@ -2,7 +2,23 @@ IdeaScaly: IdeaScale RESTful API Client
 =========
 [![Coverage Status](https://coveralls.io/repos/joausaga/ideascaly/badge.svg)](https://coveralls.io/r/joausaga/ideascaly)
 
-IdeaScale RESTful API client
+IdeaScale RESTful API client written in Python. So far, IdeaScaly has implemented about **45%** of the [IdeaScale API] 
+(http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api). Basically, with IdeaScaly it is
+ possible to:
+ * Add new members;
+ * Get information about community members;
+ * Create ideas;
+ * Vote up/down on ideas;
+ * Post comments on ideas and comments;
+ * Get the list of recent, top, and hot ideas;
+ * Get the list of ideas under review, in progress, and complete;
+ * Get the list of campaigns;
+ * Get archived ideas;
+ * Get active ideas;
+ and much more. 
+ 
+The complete list of implemented methods is available [here]
+(https://docs.google.com/spreadsheets/d/1gICkmX7EiSukQ0iTsOkxNrkES2blc5joh-AIeFVTcI8/edit?usp=sharing).
 
 Installation
 ------------
