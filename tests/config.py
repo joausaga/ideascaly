@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../ideascaly")
+
 from ideascaly.auth import AuthNonSSO
 from ideascaly.api import API
 
