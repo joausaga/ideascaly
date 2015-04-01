@@ -58,7 +58,10 @@ class JSONParser(Parser):
         if 'error' in error.keys():
             return error['error']
         else:
-            return error['errors']
+            if 'message' in error.keys():
+                return error['message']
+            else:
+                return error['errors']
 
 
 class ModelParser(JSONParser):
