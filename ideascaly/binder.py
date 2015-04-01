@@ -38,7 +38,7 @@ def bind_api(**config):
                 if arg is None:
                     continue
                 try:
-                    self.path = self.path.replace("{%s}" % str(self.allowed_param[index]), convert_to_utf8_str(arg))
+                    self.path = self.path.replace("{%s}" % self.allowed_param[index].decode('ascii'), convert_to_utf8_str(arg))
                 except IndexError:
                     raise IdeaScalyError('Wrong number of parameters supplied!')
 
@@ -47,7 +47,7 @@ def bind_api(**config):
                     continue
                 if k not in self.allowed_param:
                     continue
-                self.path = self.path.replace("{%s}" % str(k), convert_to_utf8_str(arg))
+                self.path = self.path.replace("{%s}" % k.decode('ascii'), convert_to_utf8_str(arg))
 
             if 'campaign_id' in kwargs.keys():
                 self.path = '/campaigns/' + convert_to_utf8_str(kwargs['campaign_id']) + self.path
