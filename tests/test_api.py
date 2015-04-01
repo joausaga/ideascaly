@@ -169,13 +169,13 @@ class IdeascalyAPITests(IdeascalyTestCase):
     # Test cases related with member actions
     # -----
 
-    #def testcreate_new_member(self):
-    #    result = self.api.create_new_member(name="me", email="me@xyz.info")
-    #    self.assertTrue(isinstance(result, Author))
+    def testcreate_new_member(self):
+        result = self.api.create_new_member(name="me", email="me@xyz.info")
+        self.assertTrue(isinstance(result, Author))
 
-    #def testcreate_new_member_silent(self):
-    #    result = self.api.create_new_member(name="Pato Donald", email="donald@disney.info", silent=True)
-    #    self.assertTrue(isinstance(result, Author))
+    def testcreate_new_member_silent(self):
+        result = self.api.create_new_member(name="Pato Donald", email="donald@disney.info", silent=True)
+        self.assertTrue(isinstance(result, Author))
 
     def testget_member_info_by_id(self):
         result = self.api.get_member_info_by_id(memberId=self.member_id)
