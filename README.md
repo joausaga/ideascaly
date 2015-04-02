@@ -21,8 +21,8 @@ IdeaScale RESTful API client written in Python. So far, IdeaScaly supports about
  * Get active ideas;  
  and much more. 
  
-The complete list of implemented methods is available [here]
-(https://docs.google.com/spreadsheets/d/1gICkmX7EiSukQ0iTsOkxNrkES2blc5joh-AIeFVTcI8/edit?usp=sharing).
+The complete list of implemented methods is available 
+<a href="https://docs.google.com/spreadsheets/d/1gICkmX7EiSukQ0iTsOkxNrkES2blc5joh-AIeFVTcI8/edit?usp=sharing" target="_blank">here</a> 
 
 Installation
 ------------
