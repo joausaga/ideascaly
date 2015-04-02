@@ -1,10 +1,13 @@
-
+import ConfigParser
 from ideascaly.auth import AuthNonSSO
 from ideascaly.api import API
 
-community = 'fiveheads.ideascale.com'
-token = '5b3326f8-50a5-419d-8f02-eef6a42fd61a'
-campaign_id = 28416
+config = ConfigParser.ConfigParser()
+config.read('config')
+
+community = config.get('example','community_url')
+token = config.get('example','token')
+campaign_id = 28416  # Replace with yours
 
 
 # ---
