@@ -11,14 +11,14 @@ IdeaScale RESTful API client written in Python. So far, IdeaScaly supports about
  possible to:
  * Add new members;
  * Get information about community members;
- * Create ideas;
+ * Create and delete ideas;
  * Vote up/down on ideas;
  * Post comments on ideas and comments;
  * Get the list of recent, top, and hot ideas;
  * Get the list of ideas under review, in progress, and complete;
  * Get the list of campaigns;
  * Get archived ideas;
- * Get active ideas;
+ * Get active ideas;  
  and much more. 
  
 The complete list of implemented methods is available [here]
@@ -38,8 +38,6 @@ git clone https://github.com/joausaga/ideascaly
 cd ideascaly
 python setup.py install
 ```
-
-Python 2 (>=.6) & 3 (=<.4) are supported.
 
 Documentation
 -------------
