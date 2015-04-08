@@ -47,3 +47,7 @@ Documentation
 License
 -------
 MIT
+
+Acknowledgement
+---------------
+The design and architecture of the code is mostly based on the project [Tweepy](https://github.com/tweepy/tweepy) 
