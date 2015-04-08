@@ -42,7 +42,7 @@ python setup.py install
 Documentation
 -------------
 * IdeaScaly, coming soon! (meanwhile the examples may help)
-* [IdeaScale API](http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api)
+* <a href="http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api" target="_blank">IdeaScale</a>
 
 License
 -------
