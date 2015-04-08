@@ -38,7 +38,8 @@ def bind_api(**config):
                 if arg is None:
                     continue
                 try:
-                    self.path = self.path.replace("{%s}" % self.allowed_param[index], convert_to_utf8_str(arg))
+                    arg = str(arg)
+                    self.path = self.path.replace("{%s}" % self.allowed_param[index], arg)
                 except IndexError:
                     raise IdeaScalyError('Wrong number of parameters supplied!')
 
@@ -47,29 +48,29 @@ def bind_api(**config):
                     continue
                 if k not in self.allowed_param:
                     continue
-                arg_utf8 = convert_to_utf8_str(arg)
-                self.path = self.path.replace("{%s}" % k, arg_utf8)
+                arg = str(arg)
+                self.path = self.path.replace("{%s}" % k, arg)
 
             if 'campaign_id' in kwargs.keys():
-                self.path = '/campaigns/' + convert_to_utf8_str(kwargs['campaign_id']) + self.path
+                self.path = '/campaigns/' + str(kwargs['campaign_id']) + self.path
 
             # set status key
             if 'status_key' in kwargs.keys() and 'status_key' in self.pagination_param:
-                self.path = self.path + '/' + convert_to_utf8_str(kwargs['status_key'])
+                self.path = self.path + '/' + str(kwargs['status_key'])
 
             # set pagination
             if 'page_number' in kwargs.keys() and 'page_number' in self.pagination_param and \
                'page_size' in kwargs.keys() and 'page_size' in self.pagination_param:
                 if isinstance(kwargs['page_number'],int) and isinstance(kwargs['page_size'],int):
-                    self.path = self.path + '/' + convert_to_utf8_str(kwargs['page_number'])
-                    self.path = self.path + '/' + convert_to_utf8_str(kwargs['page_size'])
+                    self.path = self.path + '/' + str(kwargs['page_number'])
+                    self.path = self.path + '/' + str(kwargs['page_size'])
                 else:
                     raise IdeaScalyError('Error with pagination parameters, they both have to be numeric')
 
             # set result order
             if 'order_key' in kwargs.keys() and 'order_key' in self.pagination_param:
                 if kwargs['order_key'] in order_keys:
-                    self.path = self.path + '/' + convert_to_utf8_str(kwargs['order_key'])
+                    self.path = self.path + '/' + str(kwargs['order_key'])
                 else:
                     raise IdeaScalyError('Error with order key parameter, it must be one of these: %s' % order_keys)
 
@@ -86,7 +87,7 @@ def bind_api(**config):
                     if arg is None:
                         continue
                     try:
-                        self.post_data[self.post_param[index]] = convert_to_utf8_str(arg)
+                        self.post_data[self.post_param[index]] = arg
                     except IndexError:
                         raise IdeaScalyError('Too many parameters supplied!')
 
@@ -97,11 +98,7 @@ def bind_api(**config):
                     continue
                 if k in self.post_data:
                     raise IdeaScalyError('Multiple values for parameter %s supplied!' % k)
-
-                if isinstance(arg, type('')):
-                    self.post_data[k] = convert_to_utf8_str(arg)
-                else:
-                    self.post_data[k] = arg
+                self.post_data[k] = arg
 
         def execute(self):
             # Build the URL of the end-point
