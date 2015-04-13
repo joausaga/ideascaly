@@ -17,7 +17,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     title_idea = "From the TestCase of IdeaScaly"
     text_idea = "Hello from IdeaScaly!"
     text_comment = "From the TestCase of IdeaScaly!"
-    comment_id = 415830
+    comment_id = 121907
     member_id = 691840
     member_email = "example@domain.com"
     member_name = "example"
@@ -219,9 +219,6 @@ class IdeascalyAPITests(IdeascalyTestCase):
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Comment))
 
-    def testattach_avatar_member(self):
-        img = self.api.attach_avatar_to_member(filename='../examples/pic.jpg', memberId=119793)
-        self.assertTrue(img.has_key('url'))
 
 if __name__ == '__main__':
     unittest.main()
