@@ -14,6 +14,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     campaign_id = 28416
     idea_id_votes = 139718
     idea_id_comments = 121848
+    idea_id_attachment = 139717
     title_idea = "From the TestCase of IdeaScaly"
     text_idea = "Hello from IdeaScaly!"
     text_comment = "From the TestCase of IdeaScaly!"
@@ -25,6 +26,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     member_email_d = "donald@disney.info"
     member_id_ideas = 119840
     member_id_votes = 119793
+    filename = 'pic.jpg'
 
     # ----
     # Test cases related with campaign actions
@@ -131,6 +133,10 @@ class IdeascalyAPITests(IdeascalyTestCase):
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Vote))
 
+    def testattach_file_idea(self):
+        result = self.api.attach_file_to_idea(filename=self.filename,ideaId=self.idea_id_attachment)
+        self.assertTrue(isinstance(result, Idea))
+
     # ----
     # Test cases related with comment actions
     # ----
@@ -218,6 +224,10 @@ class IdeascalyAPITests(IdeascalyTestCase):
         result = self.api.get_comments_member(memberId=self.member_id_ideas)
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Comment))
+
+    def testattach_image_member_avatar(self):
+        result = self.api.attach_avatar_to_member(filename=self.filename, memberId=self.member_id_votes)
+        self.assertTrue(result.has_key('url'))
 
 
 if __name__ == '__main__':

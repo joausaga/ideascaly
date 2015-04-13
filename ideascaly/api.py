@@ -208,11 +208,11 @@ class API():
     def attach_file_to_idea(self, filename, *args, **kwargs):
         """ :allowed_param: ideaId
         """
-        headers, post_data = pack_image(filename, 5120, form_field='Attachment')  # 5MB maximum size of files
+        headers, post_data = pack_image(filename, 5120, form_field='attachment')  # 5MB maximum size of files
         kwargs.update({'headers': headers, 'post_data': post_data})
         return bind_api(
             api=self,
-            path='/{ideaId}/attach',
+            path='/ideas/{ideaId}/attach',
             method='POST',
             payload_type='idea',
             allowed_param=['ideaId']
@@ -359,7 +359,7 @@ class API():
         )(*args, **kwargs)
 
     def attach_avatar_to_member(self, filename, *args, **kwargs):
-        """ :allowed_param: ideaId
+        """ :allowed_param: memberId
         """
         headers, post_data = pack_image(filename, 5120, form_field='avatar')  # 5MB maximum size of files
         kwargs.update({'headers': headers, 'post_data': post_data})

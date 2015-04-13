@@ -8,6 +8,7 @@ config.read('config')
 community = config.get('example','community_url')
 token = config.get('example','token')
 member_id = 119793  # Replace with yours
+img_file_name = 'pic.jpg'
 
 
 # ---
@@ -44,7 +45,7 @@ def get_member_email(api):
 # 'filename': string containing the name of the file to attach
 # ---
 def attach_avatar_member(api):
-    img = api.attach_avatar_to_member(filename='pic.jpg', memberId=member_id)
+    img = api.attach_avatar_to_member(filename=img_file_name, memberId=member_id)
     print('The avatar was successfully attached, the url of the attached image is {}'.format(img['url']))
 
 
