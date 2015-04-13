@@ -87,7 +87,7 @@ def bind_api(**config):
                     if arg is None:
                         continue
                     try:
-                        self.post_data.update(self.post_param[index],arg)
+                        self.post_data.update({self.post_param[index]:arg})
                     except IndexError:
                         raise IdeaScalyError('Too many parameters supplied!')
 
@@ -98,7 +98,7 @@ def bind_api(**config):
                     continue
                 if k in self.post_data:
                     raise IdeaScalyError('Multiple values for parameter %s supplied!' % k)
-                self.post_data.update(k, arg)
+                self.post_data.update({k:arg})
 
         def build_request_url(self):
             url = self.api.url + self.path
