@@ -6,7 +6,7 @@ import dateutil.parser
 import mimetypes
 import os
 import six
-from error import IdeaScalyError
+from ideascaly.error import IdeaScalyError
 
 
 def parse_datetime(str_date):
