@@ -6,6 +6,8 @@ import dateutil.parser
 import mimetypes
 import os
 import six
+
+
 from ideascaly.error import IdeaScalyError
 
 
@@ -70,7 +72,7 @@ def pack_image(filename, max_size, form_field='image'):
             raise IdeaScalyError('Invalid file type for image: %s' % file_type)
 
         if isinstance(filename, six.text_type):
-            filename = filename.encode("utf-8")
+            filename = filename.encode('utf-8')
 
         BOUNDARY = b'Id34Sc4ly'
         body = list()
@@ -85,11 +87,12 @@ def pack_image(filename, max_size, form_field='image'):
         body.append(b'')
         fp.close()
         body = b'\r\n'.join(body)
+        body_length = str(len(body))
 
         # build headers
         headers = {
             'content-type': 'multipart/form-data; boundary={0}'.format(BOUNDARY),
-            'content-length': str(len(body))
+            'content-length': body_length
         }
 
         return headers, body

@@ -21,18 +21,18 @@ def bind_api(**config):
         allowed_param = config.get('allowed_param', [])
         pagination_param = config.get('pagination_param', [])
         post_param = config.get('post_param', [])
-        session = requests.Session()
 
         def __init__(self, args, kwargs):
             self.parser = kwargs.pop('parser', self.api.parser)
             self.post_data = kwargs.pop('post_data', {})
-            self.session.headers = kwargs.pop('headers', {'content-type':'application/json'})
-            self.session.headers.update(self.api.auth_handler.token)
+            self.headers = kwargs.pop('headers', {})
+            self.headers.update(self.api.auth_handler.token)
             self.build_parameters(args, kwargs)
             self.build_path(args, kwargs)
-            if self.session.headers['content-type'] == 'application/json':
+            if 'content-type' in self.headers.keys() and self.headers['content-type'] == 'application/json':
                 self.post_data = json.dumps(self.post_data)
             self.build_request_url()
+            self.post_file = kwargs.pop('file', None)
 
         def build_path(self, args, kwargs):
             order_keys = ['date-down', 'date-up', 'votes-down', 'votes-up', 'comments-down', 'random-down',
@@ -110,7 +110,14 @@ def bind_api(**config):
         def execute(self):
             # Execute request
             try:
-                resp = self.session.request(self.method, self.request_url, data=self.post_data, timeout=self.api.timeout)
+                if self.method == 'POST':
+                    resp = requests.post(self.request_url, headers=self.headers, timeout=self.api.timeout,
+                                         files=self.post_file, data=self.post_data)
+                elif self.method == 'DELETE':
+                    resp = requests.delete(self.request_url, headers=self.headers, timeout=self.api.timeout,
+                                           data=self.post_data)
+                else:
+                    resp = requests.get(self.request_url, headers=self.headers, timeout=self.api.timeout)
             except Exception as e:
                 raise IdeaScalyError('Failed to send request: %s' % e)
 

@@ -27,7 +27,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     member_email_d = "donald@disney.info"
     member_id_ideas = 119840
     member_id_votes = 119793
-    filename = os.path.join(os.path.dirname(__file__), 'pic.jpg')
+    filename = str(os.path.join(os.path.dirname(__file__), 'pic.jpg'))
 
     # ----
     # Test cases related with campaign actions
@@ -228,7 +228,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
 
     def testattach_image_member_avatar(self):
         result = self.api.attach_avatar_to_member(filename=self.filename, memberId=self.member_id_votes)
-        self.assertTrue(result.has_key('url'))
+        self.assertTrue('url' in result.keys())
 
 
 if __name__ == '__main__':

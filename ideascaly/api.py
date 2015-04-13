@@ -2,6 +2,8 @@
 # Copyright 2015 Jorge Saldivar
 # See LICENSE for details.
 
+import sys
+
 from ideascaly.binder import bind_api
 from ideascaly.parsers import ModelParser
 from ideascaly.utils import pack_image
@@ -197,6 +199,7 @@ class API():
     def create_idea(self, *args, **kwargs):
         """ :allowed_param: 'title', 'text', 'campaignId', 'tags' (optional), 'customFields' (optional)
         """
+        kwargs.update({'headers': {'content-type':'application/json'}})
         return bind_api(
             api=self,
             path='/idea',
@@ -208,8 +211,7 @@ class API():
     def attach_file_to_idea(self, filename, *args, **kwargs):
         """ :allowed_param: ideaId
         """
-        headers, post_data = pack_image(filename, 5120, form_field='attachment')  # 5MB maximum size of files
-        kwargs.update({'headers': headers, 'post_data': post_data})
+        kwargs.update({'file': {'attachment': open(filename, 'rb')}})
         return bind_api(
             api=self,
             path='/ideas/{ideaId}/attach',
@@ -232,6 +234,7 @@ class API():
     def vote_up_idea(self, *args, **kwargs):
         """ :allowed_param: 'ideaId', 'myVote' (optional)
         """
+        kwargs.update({'headers': {'content-type':'application/json'}})
         return bind_api(
             api=self,
             path='/ideas/{ideaId}/vote/up',
@@ -244,6 +247,7 @@ class API():
     def vote_down_idea(self, *args, **kwargs):
         """ :allowed_param: 'ideaId', 'myVote' (optional)
         """
+        kwargs.update({'headers': {'content-type':'application/json'}})
         return bind_api(
             api=self,
             path='/ideas/{ideaId}/vote/down',
@@ -256,6 +260,7 @@ class API():
     def comment_idea(self, *args, **kwargs):
         """ :allowed_param: 'ideaId', 'text'
         """
+        kwargs.update({'headers': {'content-type':'application/json'}})
         return bind_api(
             api=self,
             path='/ideas/{ideaId}/comment',
@@ -281,6 +286,7 @@ class API():
     def comment_comment(self, *args, **kwargs):
         """ :allowed_param: 'commentId', 'text'
         """
+        kwargs.update({'headers': {'content-type':'application/json'}})
         return bind_api(
             api=self,
             path='/comments/{commentId}/comment',
@@ -350,6 +356,7 @@ class API():
     def create_new_member(self, *args, **kwargs):
         """ :allowed_param: 'name', 'email'
         """
+        kwargs.update({'headers': {'content-type':'application/json'}})
         return bind_api(
             api=self,
             path='/members',
@@ -361,8 +368,7 @@ class API():
     def attach_avatar_to_member(self, filename, *args, **kwargs):
         """ :allowed_param: memberId
         """
-        headers, post_data = pack_image(filename, 5120, form_field='avatar')  # 5MB maximum size of files
-        kwargs.update({'headers': headers, 'post_data': post_data})
+        kwargs.update({'file': {'avatar': open(filename, 'rb')}})
         return bind_api(
             api=self,
             path='/members/{memberId}/avatar/upload',
