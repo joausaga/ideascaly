@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from tests.config import IdeascalyTestCase
@@ -26,7 +27,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     member_email_d = "donald@disney.info"
     member_id_ideas = 119840
     member_id_votes = 119793
-    filename = 'pic.jpg'
+    filename = os.path.join(os.path.dirname(__file__), 'pic.jpg')
 
     # ----
     # Test cases related with campaign actions
