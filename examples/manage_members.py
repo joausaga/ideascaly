@@ -52,7 +52,7 @@ if __name__ == '__main__':
     auth = AuthNonSSO(token)
     api = API(auth)
     api.community_url = community
-    #create_new_member(api)
-    #get_member_email(api)
+    create_new_member(api)
+    get_member_email(api)
     attach_avatar_member(api)
 
