@@ -10,6 +10,7 @@ IdeaScale RESTful API client written in Python. So far, IdeaScaly supports about
 (http://support.ideascale.com/customer/portal/articles/1001563-ideascale-rest-api) methods. Basically, with IdeaScaly is
  possible to:
  * Add new members;
+ * Attach images as members' avatars;  
  * Get information about community members;
  * Create and delete ideas;
  * Vote up/down on ideas;
