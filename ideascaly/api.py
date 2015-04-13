@@ -4,6 +4,7 @@
 
 from ideascaly.binder import bind_api
 from ideascaly.parsers import ModelParser
+from ideascaly.utils import pack_image
 
 
 class API():
@@ -201,12 +202,21 @@ class API():
             path='/idea',
             method='POST',
             payload_type='idea',
-            post_param=["title", "text", "campaignId", "tags", "customFields"]
+            post_param=['title', 'text', 'campaignId', 'tags', 'customFields']
         )(*args, **kwargs)
 
-    def attach_media_to_idea(self, *args, **kwargs):
-        # TODO
-        raise NotImplementedError
+    def attach_file_to_idea(self, filename, *args, **kwargs):
+        """ :allowed_param: ideaId
+        """
+        headers, post_data = pack_image(filename, 5120, form_field='Attachment')  # 5MB maximum size of files
+        kwargs.update({'headers': headers, 'post_data': post_data})
+        return bind_api(
+            api=self,
+            path='/{ideaId}/attach',
+            method='POST',
+            payload_type='idea',
+            allowed_param=['ideaId']
+        )(*args, **kwargs)
 
     def delete_idea(self, *args, **kwargs):
         """ :allowed_param: 'ideaId'
@@ -346,6 +356,19 @@ class API():
             method='POST',
             payload_type='author',
             post_param=['name', 'email']
+        )(*args, **kwargs)
+
+    def attach_avatar_to_member(self, filename, *args, **kwargs):
+        """ :allowed_param: ideaId
+        """
+        headers, post_data = pack_image(filename, 5120, form_field='avatar')  # 5MB maximum size of files
+        kwargs.update({'headers': headers, 'post_data': post_data})
+        return bind_api(
+            api=self,
+            path='/members/{memberId}/avatar/upload',
+            method='POST',
+            payload_type='json',
+            allowed_param=['memberId']
         )(*args, **kwargs)
 
     def get_member_info_by_id(self, *args, **kwargs):

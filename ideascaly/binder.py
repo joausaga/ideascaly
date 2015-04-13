@@ -25,10 +25,14 @@ def bind_api(**config):
 
         def __init__(self, args, kwargs):
             self.parser = kwargs.pop('parser', self.api.parser)
-            self.post_data = {}  # kwargs.pop('post_data', None)
-            self.session.headers = self.api.auth_handler.token
+            self.post_data = kwargs.pop('post_data', {})
+            self.session.headers = kwargs.pop('headers', {'content-type':'application/json'})
+            self.session.headers.update(self.api.auth_handler.token)
             self.build_parameters(args, kwargs)
             self.build_path(args, kwargs)
+            if self.session.headers['content-type'] == 'application/json':
+                self.post_data = json.dumps(self.post_data)
+            self.build_request_url()
 
         def build_path(self, args, kwargs):
             order_keys = ['date-down', 'date-up', 'votes-down', 'votes-up', 'comments-down', 'random-down',
@@ -78,14 +82,12 @@ def bind_api(**config):
                     self.path += '/create/silent'
 
         def build_parameters(self, args, kwargs):
-            self.post_data = {}
-
             if self.post_param:
                 for index, arg in enumerate(args):
                     if arg is None:
                         continue
                     try:
-                        self.post_data[self.post_param[index]] = arg
+                        self.post_data.update(self.post_param[index],arg)
                     except IndexError:
                         raise IdeaScalyError('Too many parameters supplied!')
 
@@ -96,21 +98,19 @@ def bind_api(**config):
                     continue
                 if k in self.post_data:
                     raise IdeaScalyError('Multiple values for parameter %s supplied!' % k)
-                self.post_data[k] = arg
+                self.post_data.update(k, arg)
 
-        def execute(self):
-            # Build the URL of the end-point
+        def build_request_url(self):
             url = self.api.url + self.path
             if self.api.community_url.find("http") == -1:
-                full_url = 'http://' + self.api.community_url + url
+                self.request_url = 'http://' + self.api.community_url + url
             else:
-                full_url = self.api.community_url + url
+                self.request_url = self.api.community_url + url
 
+        def execute(self):
             # Execute request
             try:
-                self.session.headers['content-type'] = 'application/json'
-                json_data = json.dumps(self.post_data)
-                resp = self.session.request(self.method, full_url, data=json_data, timeout=self.api.timeout)
+                resp = self.session.request(self.method, self.request_url, data=self.post_data, timeout=self.api.timeout)
             except Exception as e:
                 raise IdeaScalyError('Failed to send request: %s' % e)
 

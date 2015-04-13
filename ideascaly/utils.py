@@ -2,8 +2,11 @@
 # Copyright 2015 Jorge Saldivar
 # See LICENSE for details.
 
-import six
 import dateutil.parser
+import mimetypes
+import os
+import six
+from error import IdeaScalyError
 
 
 def parse_datetime(str_date):
@@ -12,6 +15,7 @@ def parse_datetime(str_date):
         return date_is
     except:
         return None
+
 
 def parse_html_value(html):
     return html[html.find('>')+1:html.rfind('<')]
@@ -44,3 +48,48 @@ def import_simplejson():
             raise ImportError("Can't load a json library")
 
     return json
+
+
+def pack_image(filename, max_size, form_field='image'):
+        """Pack an image from file into multipart-formdata post body"""
+        try:
+            if os.path.getsize(filename) > (max_size * 1024):
+                raise IdeaScalyError('File is too big, must be less than %skb.' % max_size)
+        except os.error as e:
+            raise IdeaScalyError('Unable to access file: %s' % e.strerror)
+
+        # build the mulitpart-formdata body
+        fp = open(filename, 'rb')
+
+        # image must be gif, jpeg, or png
+        file_type = mimetypes.guess_type(filename)
+        if file_type is None:
+            raise IdeaScalyError('Could not determine file type')
+        file_type = file_type[0]
+        if file_type not in ['image/gif', 'image/jpeg', 'image/png']:
+            raise IdeaScalyError('Invalid file type for image: %s' % file_type)
+
+        if isinstance(filename, six.text_type):
+            filename = filename.encode("utf-8")
+
+        BOUNDARY = b'Id34Sc4ly'
+        body = list()
+        body.append(b'--' + BOUNDARY)
+        body.append('content-disposition: form-data; name="{0}";'
+                    ' filename="{1}"'.format(form_field, filename)
+                    .encode('utf-8'))
+        body.append('content-type: {0}'.format(file_type).encode('utf-8'))
+        body.append(b'')
+        body.append(fp.read())
+        body.append(b'--' + BOUNDARY + b'--')
+        body.append(b'')
+        fp.close()
+        body = b'\r\n'.join(body)
+
+        # build headers
+        headers = {
+            'content-type': 'multipart/form-data; boundary={0}'.format(BOUNDARY),
+            'content-length': str(len(body))
+        }
+
+        return headers, body

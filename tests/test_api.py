@@ -219,5 +219,9 @@ class IdeascalyAPITests(IdeascalyTestCase):
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Comment))
 
+    def testattach_avatar_member(self):
+        img = self.api.attach_avatar_to_member(filename='../examples/pic.jpg', memberId=119793)
+        self.assertTrue(img.has_key('url'))
+
 if __name__ == '__main__':
     unittest.main()

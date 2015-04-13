@@ -7,7 +7,7 @@ config.read('config')
 
 community = config.get('example','community_url')
 token = config.get('example','token')
-member_id = 691840  # Replace with yours
+member_id = 119793  # Replace with yours
 
 
 # ---
@@ -35,10 +35,24 @@ def get_member_email(api):
     member = api.get_member_info_by_id(memberId=member_id)
     print('The member with the id {} has the email address {}'.format(member_id, member.email))
 
+
+# ---
+# Attach an image as a member's avatar
+#
+# Required parameters
+# 'memberId': integer containing the id of the member
+# 'filename': string containing the name of the file to attach
+# ---
+def attach_avatar_member(api):
+    img = api.attach_avatar_to_member(filename='pic.jpg', memberId=member_id)
+    print('The avatar was successfully attached, the url of the attached image is {}'.format(img['url']))
+
+
 if __name__ == '__main__':
     auth = AuthNonSSO(token)
     api = API(auth)
     api.community_url = community
-    create_new_member(api)
-    get_member_email(api)
+    #create_new_member(api)
+    #get_member_email(api)
+    attach_avatar_member(api)
 
