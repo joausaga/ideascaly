@@ -1,4 +1,8 @@
-test/config
+packaging_and_uploading.txt
+
+tests/config
+
+examples/config
 
 .pypirc
 
