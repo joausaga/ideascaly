@@ -50,6 +50,54 @@ class API():
         self._last_call_pagination['pager_last_index'] = values['pager_last_index']
 
     # ----
+    # Functions related with community actions
+    # ----
+    @property
+    def get_all_ideas(self):
+        """ :pagination_param: 'page_number', 'page_size'
+        """
+        return bind_api(
+            api=self,
+            path='/ideas',
+            payload_type='idea',
+            payload_list=True,
+            pagination_param=['page_number', 'page_size']
+        )
+
+    @property
+    def get_all_comments(self):
+        """ :pagination_param: 'page_number', 'page_size'
+        """
+        return bind_api(
+            api=self,
+            path='/comments',
+            payload_type='comment',
+            payload_list=True,
+            pagination_param=['page_number', 'page_size']
+        )
+
+    @property
+    def get_all_votes(self):
+        return bind_api(
+            api=self,
+            path='/ideas/votes',
+            payload_type='vote',
+            payload_list=True
+        )
+
+    @property
+    def get_all_members(self):
+        """ :pagination_param: 'page_number', 'page_size'
+        """
+        return bind_api(
+            api=self,
+            path='/members',
+            payload_type='author',
+            payload_list=True,
+            pagination_param=['page_number', 'page_size']
+        )
+
+    # ----
     # Functions related with campaign actions
     # ----
 
@@ -270,15 +318,6 @@ class API():
             post_param=['text']
         )(*args, **kwargs)
 
-    @property
-    def get_votes_ideas(self):
-        return bind_api(
-            api=self,
-            path='/ideas/votes',
-            payload_type='vote',
-            payload_list=True
-        )
-
     # ----
     # Functions related with comment actions
     # ----
@@ -306,18 +345,6 @@ class API():
             payload_type='comment',
             allowed_param=['commentId']
         )(*args, **kwargs)
-
-    @property
-    def get_all_comments(self):
-        """ :pagination_param: 'page_number', 'page_size'
-        """
-        return bind_api(
-            api=self,
-            path='/comments',
-            payload_type='comment',
-            payload_list=True,
-            pagination_param=['page_number', 'page_size']
-        )
 
     def get_votes_comment(self, *args, **kwargs):
         """ :allowed_param: 'commentId'
