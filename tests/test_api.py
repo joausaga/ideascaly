@@ -30,6 +30,29 @@ class IdeascalyAPITests(IdeascalyTestCase):
     filename = str(os.path.join(os.path.dirname(__file__), 'pic.jpg'))
 
     # ----
+    # Test cases related with community actions
+    # ----
+    def testget_all_ideas(self):
+        result = self.api.get_all_ideas()
+        self.assertEqual(type(result), type([]))
+        if len(result) > 0: self.assertTrue(isinstance(result[0], Idea))
+
+    def testget_all_votes(self):
+        result = self.api.get_all_votes()
+        self.assertEqual(type(result), type([]))
+        if len(result) > 0: self.assertTrue(isinstance(result[0], Vote))
+
+    def testget_all_comments(self):
+        result = self.api.get_all_comments()
+        self.assertEqual(type(result), type([]))
+        if len(result) > 0: self.assertTrue(isinstance(result[0], Comment))
+
+    def testget_all_members(self):
+        result = self.api.get_all_members()
+        self.assertEqual(type(result), type([]))
+        if len(result) > 0: self.assertTrue(isinstance(result[0], Author))
+
+    # ----
     # Test cases related with campaign actions
     # ----
 
@@ -129,11 +152,6 @@ class IdeascalyAPITests(IdeascalyTestCase):
         result = self.api.comment_idea(ideaId=self.idea_id_comments, text=self.text_comment)
         self.assertTrue(isinstance(result, Comment))
 
-    def testget_votes_all_ideas(self):
-        result = self.api.get_votes_ideas()
-        self.assertEqual(type(result), type([]))
-        if len(result) > 0: self.assertTrue(isinstance(result[0], Vote))
-
     def testattach_file_idea(self):
         result = self.api.attach_file_to_idea(filename=self.filename,ideaId=self.idea_id_attachment)
         self.assertTrue(isinstance(result, Idea))
@@ -161,11 +179,6 @@ class IdeascalyAPITests(IdeascalyTestCase):
     def testget_comment(self):
         result = self.api.get_comment(commentId=self.comment_id)
         self.assertEqual(type(result), Comment)
-
-    def testget_all_comments(self):
-        result = self.api.get_all_comments()
-        self.assertEqual(type(result), type([]))
-        if len(result) > 0: self.assertTrue(isinstance(result[0], Comment))
 
     def testget_all_comments_pagination(self):
         result = self.api.get_all_comments(page_number=0, page_size=25)
