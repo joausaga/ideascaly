@@ -2,7 +2,7 @@
 # Copyright 2015 Jorge Saldivar
 # See LICENSE for details.
 
-import dateutil.parser
+import datetime
 import mimetypes
 import os
 import six
@@ -11,9 +11,9 @@ import six
 from ideascaly.error import IdeaScalyError
 
 
-def parse_datetime(str_date):
+def parse_datetime(long_ms):
     try:
-        date_is = dateutil.parser.parse(str_date)
+        date_is = datetime.datetime.fromtimestamp(long_ms/1e3)
         return date_is
     except:
         return None

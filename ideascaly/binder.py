@@ -6,7 +6,6 @@ import json
 import requests
 
 from ideascaly.error import IdeaScalyError
-from ideascaly.utils import convert_to_utf8_str
 
 
 def bind_api(**config):

@@ -3,7 +3,6 @@
 # See LICENSE for details.
 
 from ideascaly.utils import parse_datetime
-from ideascaly.error import IdeaScalyError
 
 
 class Model(object):
