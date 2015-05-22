@@ -19,7 +19,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     title_idea = "From the TestCase of IdeaScaly"
     text_idea = "Hello from IdeaScaly!"
     text_comment = "From the TestCase of IdeaScaly!"
-    comment_id = 121907
+    comment_id = 718829
     member_id = 691840
     member_email = "example@domain.com"
     member_name = "example"
