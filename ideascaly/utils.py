@@ -3,6 +3,7 @@
 # See LICENSE for details.
 
 import datetime
+import dateutil.parser
 import mimetypes
 import os
 import six
@@ -11,12 +12,17 @@ import six
 from ideascaly.error import IdeaScalyError
 
 
-def parse_datetime(long_ms):
-    try:
-        date_is = datetime.datetime.fromtimestamp(long_ms/1e3)
-        return date_is
-    except:
-        return None
+def parse_datetime(is_date):
+    if is_date.isdigit():  # Check whether date is expressed in POSIX (Unix) time
+        try:
+            return datetime.datetime.fromtimestamp(is_date/1e3)
+        except:
+            return None
+    else:
+        try:
+            return dateutil.parser.parse(is_date)
+        except:
+            return None
 
 
 def parse_html_value(html):
