@@ -19,8 +19,10 @@ def parse_datetime(is_date):
         except:
             return None
     else:
+        date_format = "%Y-%m-%dT%H:%M:%S.%f%z"
         try:
-            return dateutil.parser.parse(is_date)
+            date = dateutil.parser.parse(is_date)
+            return date.strftime(date_format)
         except:
             return None
 
