@@ -14,7 +14,7 @@ class IdeascalyAPITests(IdeascalyTestCase):
     # ---
     campaign_id = 28416
     idea_id_votes = 139718
-    idea_id_comments = 121848
+    idea_id_comments = 135840
     idea_id_attachment = 139717
     title_idea = "From the TestCase of IdeaScaly"
     text_idea = "Hello from IdeaScaly!"
