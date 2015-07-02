@@ -77,10 +77,19 @@ class API():
         )
 
     @property
-    def get_all_votes(self):
+    def get_all_votes_ideas(self):
         return bind_api(
             api=self,
             path='/ideas/votes',
+            payload_type='vote',
+            payload_list=True
+        )
+
+    @property
+    def get_all_votes_comments(self):
+        return bind_api(
+            api=self,
+            path='/comments/votes',
             payload_type='vote',
             payload_list=True
         )
