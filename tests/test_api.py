@@ -37,8 +37,13 @@ class IdeascalyAPITests(IdeascalyTestCase):
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Idea))
 
-    def testget_all_votes(self):
-        result = self.api.get_all_votes()
+    def testget_all_votes_ideas(self):
+        result = self.api.get_all_votes_ideas()
+        self.assertEqual(type(result), type([]))
+        if len(result) > 0: self.assertTrue(isinstance(result[0], Vote))
+
+    def testget_all_votes_comments(self):
+        result = self.api.get_all_votes_comments()
         self.assertEqual(type(result), type([]))
         if len(result) > 0: self.assertTrue(isinstance(result[0], Vote))
 
