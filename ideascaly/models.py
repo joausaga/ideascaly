@@ -119,7 +119,7 @@ class Vote(Model):
         setattr(vote, '_json', json)
 
         for k, v in json.items():
-            if k == 'creationDateTime':
+            if k == 'creationDateTime' or k == 'creationDate':
                 setattr(vote, k, parse_datetime(v))
             else:
                 setattr(vote, k, v)
