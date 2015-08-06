@@ -13,13 +13,13 @@ class IdeascalyAPITests(IdeascalyTestCase):
     # Testing variables
     # ---
     campaign_id = 28416
-    idea_id_votes = 139718
-    idea_id_comments = 135840
+    idea_id_votes = 137010
+    idea_id_comments = 137010
     idea_id_attachment = 139717
     title_idea = "From the TestCase of IdeaScaly"
     text_idea = "Hello from IdeaScaly!"
     text_comment = "From the TestCase of IdeaScaly!"
-    comment_id = 718829
+    comment_id = 773330
     member_id = 691840
     member_email = "example@domain.com"
     member_name = "example"
