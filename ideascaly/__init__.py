@@ -6,7 +6,7 @@
 IdeaScaly: IdeaScale API client
 """
 
-__version__ = '0.7'
+__version__ = '0.9'
 __author__ = 'Jorge Saldivar'
 __license__ = 'MIT'
 
